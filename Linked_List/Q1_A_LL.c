@@ -90,7 +90,57 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
-	/* add your code here */
+	/* add your code here */	
+	// 비어 있을 때
+	if (ll->head == NULL || ll->size == 0){		
+		ll->head = malloc(sizeof(ListNode));
+		ll->head->item = item;
+		ll->head->next = NULL;
+		ll->size++;
+		return 0;
+	}
+	ListNode *cur;
+	ListNode *nextNode;
+	cur = ll->head;
+	// 안비었을 때
+	for (int i = 0; i < ll->size; i++) {
+		nextNode = cur->next;
+		if (cur->item == item) {
+			return -1;
+		}
+		// 하나 있는 원소의 item보다 새로 들어온 item 값이 작은 경우
+		if (cur->item > item) {
+			nextNode = ll->head;
+			ll->head = malloc(sizeof(ListNode));
+			ll->head->item = item;
+			ll->head->next = nextNode;
+			ll->size++;
+			return 0;
+		}
+		// 새로 들어온 item의 값이 기존 값보다 큰 경우
+		if (cur->item < item) {	
+			// 끝에 있는 원소인 경우		
+			if (nextNode == NULL) {
+				cur->next = malloc(sizeof(ListNode));
+				cur->next->next = NULL;
+				cur->next->item = item;
+				ll->size++;
+				return ll->size - 1;
+			}
+			// 중간에 item보다 큰 값이 있는 경우
+			if (item < nextNode->item) {
+				cur->next = malloc(sizeof(ListNode));
+				cur->next->item = item;
+				cur->next->next = nextNode; 
+				ll->size++;
+				return i + 1;
+			}
+		}
+		cur = cur->next;
+		
+	}
+
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
