@@ -29,7 +29,7 @@ void frontBackSplitLinkedList(LinkedList* ll, LinkedList *resultFrontList, Linke
 
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *l);
-ListNode * findNode(LinkedList *ll, int index);
+ListNode* findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
@@ -101,8 +101,25 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
-{
-	/* add your code here */
+{	
+	int mid_idx = (ll->size + 1) / 2;
+	ListNode **frontLastNode = &(resultFrontList->head);
+	for (int i = 0; i < mid_idx; i++) {
+		*frontLastNode = ll->head;
+		frontLastNode = &((*frontLastNode)->next);
+		resultFrontList->size += 1;
+
+		ll->head = ll->head->next;
+		ll->size -= 1;
+	}
+	// mid_idx 초과 부분 연결 끊기
+	*frontLastNode = NULL;
+
+	resultBackList->head = ll->head;
+	resultBackList->size = ll->size;
+
+	ll->head = NULL;
+	ll->size = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
