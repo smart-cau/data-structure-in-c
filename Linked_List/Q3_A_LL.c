@@ -31,9 +31,10 @@ void moveOddItemsToBack(LinkedList *ll);
 
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *ll);
-ListNode * findNode(LinkedList *ll, int index);
+ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
+int isOdd(int num);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -83,10 +84,56 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+int isOdd(int num) {
+	if (num % 2 == 1) return 1;
+	return 0;
+}
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	if (ll == NULL || ll->head == NULL || ll->size == 0)
+		return;
+
+	ListNode *pre = ll;
+	ListNode *cur = ll->head;
+	ListNode *temp;
+	ListNode *temp2;
+	ListNode *temp3;
+	
+	if (isOdd(cur->item)) {
+		temp = cur;
+		while (cur->next != NULL) {
+			if (!isOdd(cur->next->item)) {
+				temp2 = cur->next;
+				temp3 = cur->next->next;
+				ll->head = temp2;
+				cur->next->next = temp;
+				cur->next = temp3;								
+				break;
+			}
+			cur = cur->next;
+		}
+	}
+
+	pre = ll->head;
+	while (pre->next != NULL) {
+		cur = pre->next;
+		if (isOdd(cur->item)) {
+			temp = pre->next;
+			while (cur != NULL && isOdd(cur->item)) {
+				if (cur->next != NULL && !isOdd(cur->next->item)) {
+					temp2 = cur->next;
+					temp3 = cur->next->next;
+					pre->next = temp2;
+					cur->next->next = temp;
+					cur->next = temp3;
+				}
+				cur = cur->next;
+			}
+		}
+
+		pre = pre->next;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
