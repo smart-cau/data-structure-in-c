@@ -84,10 +84,36 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void moveEvenItemsToBack(LinkedList *ll)
-{
+void moveEvenItemsToBack(LinkedList *ll) {
 	/* add your code here */
+	ListNode *evenNodeStart = NULL;
+	ListNode *evenNodeEnd = NULL;
+	ListNode *curNode = ll->head;
+	ListNode **prenext = &(ll->head);
+
+	while (curNode != NULL) {
+		// 홀수 test
+		if ((curNode->item) & 1) {
+			prenext = &(curNode->next);
+			curNode = curNode->next;
+		} else if (evenNodeStart == NULL) {
+			evenNodeStart = evenNodeEnd = curNode;
+			*prenext = curNode->next;
+			curNode->next = NULL;
+			curNode = *prenext;
+		} else {
+			*prenext = curNode->next;
+			evenNodeEnd->next = curNode;
+			evenNodeEnd = curNode;
+			curNode->next = NULL;
+			curNode = *prenext;
+		}
+	}
+
+	if (prenext != NULL)
+		*prenext = evenNodeStart;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
