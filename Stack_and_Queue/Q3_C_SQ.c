@@ -100,10 +100,30 @@ int main()
 }
 
 /////////////////////////////////////////////////////////////////////////////////
+int abs_bitmasking(int n) {
+	/*
+		if n is positive -> mask == all 0
+		if n is negative -> mask == all 1
+	*/
+	int mask = n >> 31;
+	// (n + mask) -> if n is positive, 효과 없음. if negative, -1을 더함
+	// (n + mask) ^ mask -> 부호 전환
+	return (n + mask) ^ mask;
+}
 
 int isStackPairwiseConsecutive(Stack *s)
 {
   /* add your code here */
+	if (s->ll.size % 2 == 1) 
+		return 0;
+
+	for (int i = 0; i < (s->ll.size)/2; i++) {
+		int a = pop(s);
+		int b = pop(s);
+		if (abs_bitmasking(a - b) != 1)
+			return 0;
+	}
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
