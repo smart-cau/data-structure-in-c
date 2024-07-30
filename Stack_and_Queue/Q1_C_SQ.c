@@ -117,6 +117,15 @@ int main()
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
 	/* add your code here */
+	if (q->ll.size != 0 || q->ll.head != NULL) {
+		removeAllItemsFromQueue(q);
+	}
+	ListNode* cur = ll->head;
+	while (cur != NULL) {
+		int item = cur->item;
+		enqueue(q, item);
+		cur = cur->next;
+	}
 }
 
 void removeOddValues(Queue *q)
@@ -224,8 +233,7 @@ int insertNode(LinkedList *ll, int index, int value){
 	if (ll->head == NULL || index == 0){
 		cur = ll->head;
 		ll->head = malloc(sizeof(ListNode));
-		if (ll->head == NULL)
-		{
+		if (ll->head == NULL){
 			exit(0);
 		}
 		ll->head->item = value;
