@@ -99,10 +99,23 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+int max(int a, int b) {
+    if (a > b)
+        return a;
+    return b;
+}
 
-int hasGreatGrandchild(BTNode *node)
-{
+int hasGreatGrandchild(BTNode *node) {
 	/* add your code here */
+    if (!node || node->left == NULL && node->right == NULL)
+        return 0;
+    
+    int depth = max(hasGreatGrandchild(node->left), hasGreatGrandchild(node->right)) + 1;
+
+    if (depth > 2)
+        printf("%d ", node->item);    
+
+    return depth;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
