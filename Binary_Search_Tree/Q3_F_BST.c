@@ -92,6 +92,27 @@ int main()
 void preOrderIterative(BSTNode *root)
 {
 	 /* add your code here */
+	 if (!root)
+	 	return;
+	Stack s;
+	s.top = NULL;
+
+	BSTNode* current = root;	
+	while(current || !isEmpty(&s)) {		
+		if (current) {
+			printf("%d ", current->item);
+			if (current->right)
+				push(&s, current->right);
+			current = current->left;
+		}
+		if (!current && !isEmpty(&s)) {
+			current = pop(&s);
+			printf("%d ", current->item);
+			if (current->right)
+				push(&s, current->right);
+			current = current->left;
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
