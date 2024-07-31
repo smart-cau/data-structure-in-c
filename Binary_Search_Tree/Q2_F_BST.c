@@ -8,7 +8,7 @@ Purpose: Implementing the required functions for Question 2 */
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#define VISITED -9999
 //////////////////////////////////////////////////////////////////////////////////
 
 typedef struct _bstnode{
@@ -86,11 +86,40 @@ int main()
 	return 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////// 
 
-void inOrderTraversal(BSTNode *root)
-{
-	 /* add your code here */
+void inOrderTraversal(BSTNode *root) {
+	/* add your code here */
+	// 순회를 해도 트리가 남아있는 방식이라 트리 추가 후 재순회를 하면 기존값이 dummy value(VISITED)로 바뀌어 있는 문제 발생
+	if (!root)
+		return;
+
+	Stack s;
+	s.top = NULL;
+
+	push(&s, root);
+	
+	while (!isEmpty(&s)) {
+		BSTNode* peeked = peek(&s);
+		BSTNode* popped;
+		if (peeked->left && peeked->left->item != VISITED)
+			push(&s, peeked->left);
+		// pop leaf node
+		if (!(peeked->left) && !(peeked->right)) {
+			popped = pop(&s);
+			printf("%d ", popped->item);
+			popped->item = VISITED;
+			continue;
+		}
+		// left node가 있는데 방문한 root거나, left자체가 없으면 pop root node
+		if ((peeked->left && (peeked->left->item == VISITED)) || !(peeked->left)) {			
+			popped = pop(&s);
+			printf("%d ", popped->item);
+			popped->item = VISITED;
+			if (peeked->right) 
+				push(&s, peeked->right);
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
