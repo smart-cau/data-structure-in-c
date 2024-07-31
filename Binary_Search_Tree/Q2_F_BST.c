@@ -87,8 +87,30 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////////////// 
-
 void inOrderTraversal(BSTNode *root) {
+	/* add your code here */
+	if (!root)
+		return;
+
+	Stack s;
+	s.top = NULL;
+
+	BSTNode* current = root;
+	while (current || !isEmpty(&s)) {
+		if (current) {
+			push(&s, current);
+			current = current->left;
+		}
+		if (!current && !isEmpty(&s)) {
+			BSTNode* popped = pop(&s);
+			printf("%d ", popped->item);
+			if (popped->right)
+				current = popped->right;
+		}
+	}
+}
+
+void inOrderTraversal_firstTry(BSTNode *root) {
 	/* add your code here */
 	// 순회를 해도 트리가 남아있는 방식이라 트리 추가 후 재순회를 하면 기존값이 dummy value(VISITED)로 바뀌어 있는 문제 발생
 	if (!root)
